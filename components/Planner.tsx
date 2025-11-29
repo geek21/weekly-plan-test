@@ -297,4 +297,40 @@ const Planner: React.FC<PlannerProps> = ({ role, assignedSubject }) => {
               ))}
             </tbody>
           </table>
-        
+        </div>
+
+        {/* Mobile Card View */}
+        <div className="lg:hidden p-4 space-y-6">
+          {DAYS.map((day) => (
+            <div key={day} className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+              <h3 className="text-lg font-bold text-primary mb-3">{t.day} {day.replace('Day ', '')}</h3>
+              <div className="space-y-3">
+                 {[
+                   { key: 'classwork', label: t.classwork },
+                   { key: 'homework', label: t.homework },
+                   { key: 'items', label: t.items },
+                   { key: 'tests', label: t.tests },
+                   { key: 'events', label: t.events }
+                 ].map(({ key, label }) => (
+                   <div key={key}>
+                     <label className="block text-xs font-semibold text-gray-500 uppercase mb-1">{label}</label>
+                     <textarea
+                        value={(plan.days[day] as any)[key]}
+                        onChange={(e) => handleInputChange(day, key, e.target.value)}
+                        disabled={!isEditable}
+                        className={`w-full p-2 border border-gray-200 rounded-md focus:ring-2 focus:ring-primary focus:border-transparent text-sm min-h-[60px] ${!isEditable ? 'bg-gray-100 text-gray-500' : ''}`}
+                        dir="auto"
+                        placeholder={isEditable ? t.typeHere : ''}
+                      />
+                   </div>
+                 ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Planner;
